@@ -1,0 +1,35 @@
+# Deployment Conversao Peso
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conv-peso
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: conv-peso
+  template:
+    metadata:
+      labels:
+        app: conv-peso
+    spec:
+      containers:
+        - name: conv-peso
+          image: caiocampos/conversao-peso:v1
+          # image: fabricioveronez/conversao-peso:v1
+          ports:
+            - containerPort: 80
+---
+# Service Conversao Temperatura
+apiVersion: v1
+kind: Service
+metadata:
+  name: conv-peso
+spec:
+  selector:
+    app: conv-peso
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30000
+  type: NodePort
